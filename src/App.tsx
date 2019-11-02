@@ -1,64 +1,65 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.scss'
 import M from 'materialize-css'
+import { ExpenseType } from './types/ExpenseTypes'
+import { IExpenseItem } from './types/IExpenseItem'
+import ExpenseSummary from './components/ExpenseSummary'
+import ExpenseList from './components/ExpenseList'
 
-enum ExpenseType {
-  Meals = 'meals',
-  Entertainment = 'entertainment',
-  Bills = 'bills',
-  Savings = 'savings',
-  Coffee = 'coffee'
-}
 function App() {
+  const [selectedType, setSelectedType] = useState<ExpenseType>(
+    ExpenseType.Food
+  )
+  const [textAmount, setTextAmount] = useState<string>()
+  const [newAmount, setNewAmount] = useState<number>()
+  const [newNote, setNewNote] = useState<string>('')
+
+  const [expenses, setExpenses] = useState<Array<IExpenseItem>>([])
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setExpenses(prev => {
+      const expense: IExpenseItem = {
+        amount: newAmount || 0,
+        note: newNote || selectedType,
+        type: selectedType
+      }
+      return [...prev, expense]
+    })
+  }
+
   useEffect(() => {
     M.AutoInit()
     M.updateTextFields()
   }, [])
+
   return (
     <div className="App">
       <h1 className="title">Expense Tracker</h1>
-
-      <main className="summary">
-        <div className="summary-item z-depth-4">
-          <header>Gems</header>
-          <p>82</p>
-        </div>
-        <div className="summary-item z-depth-4">
-          <header>Gems</header>
-          <p>82</p>
-        </div>
-        <div className="summary-item z-depth-4">
-          <header>Gems</header>
-          <p>82</p>
-        </div>
-
-        <div className="summary-item z-depth-4">
-          <header>Gems</header>
-          <p>82</p>
-        </div>
-        <div className="summary-item z-depth-4">
-          <header>Gems</header>
-          <p>82</p>
-        </div>
-      </main>
-
-      <form className="col s12 z-depth-1">
+      <ExpenseSummary />
+      <form className="col s12 z-depth-1" onSubmit={e => handleSubmit(e)}>
         <header>
           <h5>add an expense...</h5>
         </header>
         <div className="row">
           <div className="input-field col s6">
             <i className="material-icons prefix">attach_money</i>
-            <input id="amount" type="number" />
+            <input
+              id="amount"
+              type="number"
+              placeholder="0.00"
+              value={textAmount}
+              onBlur={e => setNewAmount(parseInt(e.target.value))}
+              onChange={e => setTextAmount(e.target.value)}
+            />
             <label htmlFor="amount">Amount</label>
           </div>
           <div className="input-field col s6">
-            <select>
-              <option value="" disabled>
-                Choose your option
-              </option>
+            <select
+              value={selectedType as ExpenseType}
+              onChange={e => setSelectedType(e.target.value as ExpenseType)}
+            >
               {Object.keys(ExpenseType).map(key => {
-                console.log({ key })
                 return (
                   <option key={key} value={key}>
                     {key}
@@ -69,30 +70,20 @@ function App() {
             <label>Materialize Select</label>
           </div>
           <div className="input-field col s12">
-            <input id="note" type="text" />
+            <input
+              id="note"
+              type="text"
+              value={newNote}
+              onChange={e => setNewNote(e.target.value)}
+            />
             <label htmlFor="note">Notes</label>
           </div>
         </div>
         <div className="submit-button">
-          <button
-            className="btn waves-effect waves-light"
-            type="submit"
-            name="action"
-          >
-            add
-          </button>
+          <button className="btn">add</button>
         </div>
       </form>
-
-      <ul className="collection">
-        <li className="collection-item avatar">
-          <i className="material-icons circle">casino</i>
-          <div className="line-item-details">
-            <main>this is a thing</main>
-            <aside>$6.00</aside>
-          </div>
-        </li>
-      </ul>
+      <ExpenseList expenses={expenses} />
     </div>
   )
 }

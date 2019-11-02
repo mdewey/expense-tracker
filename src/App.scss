@@ -63,4 +63,25 @@ form {
   padding: 1rem;
   font-size: 2rem;
   width: 100%;
+  text-transform: capitalize;
+}
+
+.Bills {
+  @extend .blue, .lighten-1;
+}
+
+.Entertainment {
+  @extend .amber, .accent-3;
+}
+
+.Coffee {
+  @extend .brown, .darken-4;
+}
+
+.Savings {
+  @extend .cyan, .accent-3;
+}
+
+.Food {
+  @extend .purple, .accent-2;
 }
