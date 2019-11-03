@@ -14,8 +14,14 @@ const ExpenseList: FunctionComponent<{ expenses: Array<IExpenseItem> }> = ({
             <div className="line-item-details">
               <main>{expense.note}</main>
               <time>
-                {expense.when.toDateString()} @{' '}
-                {expense.when.toLocaleTimeString()}
+                {expense.when ? (
+                  <>
+                    {expense.when.toDateString()} @{' '}
+                    {expense.when.toLocaleTimeString()}
+                  </>
+                ) : (
+                  <>no time provideds</>
+                )}
               </time>
               <aside>${expense.amount.toFixed(2)}</aside>
             </div>

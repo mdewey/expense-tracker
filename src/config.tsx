@@ -13,7 +13,7 @@ const production: IEnvironmentConfig = {
 }
 
 const development: IEnvironmentConfig = {
-  API_URL: ''
+  API_URL: 'https://localhost:5001/api'
 }
 
 const testEnv: IEnvironmentConfig = {

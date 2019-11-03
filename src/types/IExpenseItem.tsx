@@ -4,5 +4,6 @@ export interface IExpenseItem {
   type: ExpenseType
   note: string | null
   amount: number
-  when: Date
+  when?: Date
+  id?: number | undefined
 }

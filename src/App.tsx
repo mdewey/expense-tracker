@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import './App.scss'
 import M from 'materialize-css'
+import axios from 'axios'
+
 import { ExpenseType } from './types/ExpenseTypes'
 import { IExpenseItem } from './types/IExpenseItem'
 import ExpenseSummary from './components/ExpenseSummary'
 import ExpenseList from './components/ExpenseList'
 import Total from './components/Total'
+import CONFIG from './config'
 
 function App() {
   const [selectedType, setSelectedType] = useState<ExpenseType>(
@@ -17,24 +20,49 @@ function App() {
 
   const [expenses, setExpenses] = useState<Array<IExpenseItem>>([])
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const addExpenseToApi = async (
+    expense: IExpenseItem
+  ): Promise<IExpenseItem> => {
+    const resp = await axios.post(CONFIG.API_URL + '/expense', expense)
+    if (resp.status === 200) {
+      expense.id = resp.data.id
+      expense.when = new Date(resp.data.when)
+    }
+    return expense
+  }
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (newAmount) {
+      let expense: IExpenseItem = {
+        amount: newAmount || 0,
+        note: newNote || selectedType,
+        type: selectedType
+      }
+      expense = await addExpenseToApi(expense)
+
       setExpenses(prev => {
-        const expense: IExpenseItem = {
-          amount: newAmount || 0,
-          note: newNote || selectedType,
-          type: selectedType,
-          when: new Date()
-        }
         return [...prev, expense]
       })
+    }
+  }
+
+  const loadExpenseFromAPI = async () => {
+    const resp = await axios.get(CONFIG.API_URL + '/expense')
+    if (resp.status === 200) {
+      setExpenses(
+        resp.data.map((item: any) => {
+          const rv: IExpenseItem = { ...item }
+          rv.when = new Date(item.when)
+          return rv
+        })
+      )
     }
   }
 
   useEffect(() => {
     M.AutoInit()
     M.updateTextFields()
+    loadExpenseFromAPI()
   }, [])
 
   return (
