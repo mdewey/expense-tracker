@@ -26,7 +26,7 @@ function App() {
     const resp = await axios.post(CONFIG.API_URL + '/expense', expense)
     if (resp.status === 200) {
       expense.id = resp.data.id
-      expense.when = new Date(resp.data.when)
+      expense.when = resp.data.when
     }
     return expense
   }
@@ -52,7 +52,7 @@ function App() {
       setExpenses(
         resp.data.map((item: any) => {
           const rv: IExpenseItem = { ...item }
-          rv.when = new Date(item.when)
+          // rv.when = new Date(item.when)
           return rv
         })
       )

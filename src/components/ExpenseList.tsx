@@ -2,6 +2,8 @@ import React, { FunctionComponent } from 'react'
 import { IExpenseItem } from '../types/IExpenseItem'
 import ItemIcon from './ItemIcon'
 
+import moment from 'moment'
+
 const ExpenseList: FunctionComponent<{ expenses: Array<IExpenseItem> }> = ({
   expenses = []
 }) => {
@@ -13,11 +15,19 @@ const ExpenseList: FunctionComponent<{ expenses: Array<IExpenseItem> }> = ({
             <ItemIcon et={expense.type} />
             <div className="line-item-details">
               <main>{expense.note}</main>
+
               <time>
                 {expense.when ? (
                   <>
-                    {expense.when.toDateString()} @{' '}
-                    {expense.when.toLocaleTimeString()}
+                    {/* <Moment
+                      date={expense.when}
+                      local
+                      format="YYYY/MM/DD @ hh:mm"
+                    /> */}
+                    {moment
+                      .utc(expense.when)
+                      .local()
+                      .format('M/D/YY @ h:mm a')}
                   </>
                 ) : (
                   <>no time provideds</>
