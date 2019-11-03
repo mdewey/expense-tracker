@@ -36,7 +36,7 @@ function App() {
   return (
     <div className="App">
       <h1 className="title">Expense Tracker</h1>
-      <ExpenseSummary />
+      <ExpenseSummary expenses={expenses} />
       <form className="col s12 z-depth-1" onSubmit={e => handleSubmit(e)}>
         <header>
           <h5>add an expense...</h5>
