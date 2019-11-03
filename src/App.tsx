@@ -5,6 +5,7 @@ import { ExpenseType } from './types/ExpenseTypes'
 import { IExpenseItem } from './types/IExpenseItem'
 import ExpenseSummary from './components/ExpenseSummary'
 import ExpenseList from './components/ExpenseList'
+import Total from './components/Total'
 
 function App() {
   const [selectedType, setSelectedType] = useState<ExpenseType>(
@@ -39,6 +40,7 @@ function App() {
   return (
     <div className="App">
       <h1 className="title">Expense Tracker</h1>
+      <Total expenses={expenses} />
       <ExpenseSummary expenses={expenses} />
       <form className="col s12 z-depth-1" onSubmit={e => handleSubmit(e)}>
         <header>

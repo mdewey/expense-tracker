@@ -89,3 +89,9 @@ form {
 .Food {
   @extend .purple, .accent-2;
 }
+
+.total {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
