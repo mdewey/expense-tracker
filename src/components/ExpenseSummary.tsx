@@ -23,7 +23,7 @@ const ExpenseSummary: FunctionComponent<{
     setData({ ...data })
   }, [expenses])
 
-  if (!data) {
+  if (!data || !Object.keys(data).length) {
     return (
       <main className="summary">
         <h3>No Expenses Yet...</h3>

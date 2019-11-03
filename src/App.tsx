@@ -10,7 +10,7 @@ function App() {
   const [selectedType, setSelectedType] = useState<ExpenseType>(
     ExpenseType.Food
   )
-  const [textAmount, setTextAmount] = useState<string>()
+  const [textAmount, setTextAmount] = useState<string>('')
   const [newAmount, setNewAmount] = useState<number>()
   const [newNote, setNewNote] = useState<string>('')
 
@@ -22,7 +22,8 @@ function App() {
       const expense: IExpenseItem = {
         amount: newAmount || 0,
         note: newNote || selectedType,
-        type: selectedType
+        type: selectedType,
+        when: new Date()
       }
       return [...prev, expense]
     })
@@ -49,7 +50,8 @@ function App() {
               type="number"
               placeholder="0.00"
               value={textAmount}
-              onBlur={e => setNewAmount(parseInt(e.target.value))}
+              step="0.01"
+              onBlur={e => setNewAmount(parseFloat(e.target.value))}
               onChange={e => setTextAmount(e.target.value)}
             />
             <label htmlFor="amount">Amount</label>
