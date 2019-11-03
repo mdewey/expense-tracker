@@ -65,6 +65,10 @@ form {
   width: 100%;
   text-transform: capitalize;
 }
+.line-item-details time {
+  font-size: 1rem;
+  font-style: italic;
+}
 
 .Bills {
   @extend .blue, .lighten-1;

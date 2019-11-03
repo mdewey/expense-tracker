@@ -18,15 +18,17 @@ function App() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setExpenses(prev => {
-      const expense: IExpenseItem = {
-        amount: newAmount || 0,
-        note: newNote || selectedType,
-        type: selectedType,
-        when: new Date()
-      }
-      return [...prev, expense]
-    })
+    if (newAmount) {
+      setExpenses(prev => {
+        const expense: IExpenseItem = {
+          amount: newAmount || 0,
+          note: newNote || selectedType,
+          type: selectedType,
+          when: new Date()
+        }
+        return [...prev, expense]
+      })
+    }
   }
 
   useEffect(() => {
