@@ -3,7 +3,7 @@ import { ExpenseType } from '../types/ExpenseTypes'
 
 const ItemIcon: FunctionComponent<{ et: ExpenseType }> = ({ et }) => {
   console.log(et)
-  let icon = 'free_breakfast'
+  let icon = 'help_outline'
   switch (et) {
     case ExpenseType.Bills:
       icon = 'account_balance'

@@ -19,7 +19,6 @@ const ExpenseSummary: FunctionComponent<{
       },
       {} as SummaryData
     )
-    console.log({ data })
     setData({ ...data })
   }, [expenses])
 

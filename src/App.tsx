@@ -49,13 +49,7 @@ function App() {
   const loadExpenseFromAPI = async () => {
     const resp = await axios.get(CONFIG.API_URL + '/expense')
     if (resp.status === 200) {
-      setExpenses(
-        resp.data.map((item: any) => {
-          const rv: IExpenseItem = { ...item }
-          // rv.when = new Date(item.when)
-          return rv
-        })
-      )
+      setExpenses(resp.data)
     }
   }
 
